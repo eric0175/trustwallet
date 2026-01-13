@@ -388,11 +388,7 @@ const WithdrawModal = ({ isOpen, onClose }) => {
               </div>
             </div>
             
-            <div className="pt-3 border-t border-gray-800">
-              <p className="text-xs text-red-400 text-center">
-                ⚠️ Demo Mode: This is a demonstration. No real funds will be transferred.
-              </p>
-            </div>
+           
           </div>
         </div>
       </div>
