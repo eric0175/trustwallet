@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
-import { FaTimes, FaUser, FaBuilding, FaHashtag, FaExclamationTriangle, FaShieldAlt } from 'react-icons/fa';
-import { MdAttachMoney } from 'react-icons/md';
+import { FaTimes, FaUser, FaBuilding, FaHashtag, FaExclamationTriangle, FaShieldAlt, FaClock, FaExternalLinkAlt } from 'react-icons/fa';
+import { MdAttachMoney, MdClose } from 'react-icons/md';
+import { SiTether } from 'react-icons/si';
 
 const WithdrawModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     bankName: '',
     routingNumber: '',
+    amount: '1000'
   });
   const [error, setError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    
+    // Format amount to only allow numbers and decimals
+    if (name === 'amount') {
+      const formattedValue = value.replace(/[^0-9.]/g, '');
+      setFormData({
+        ...formData,
+        [name]: formattedValue
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -25,8 +38,8 @@ const WithdrawModal = ({ isOpen, onClose }) => {
 
     // Simulate processing
     setTimeout(() => {
-      // Show service fee error as required
-      setError('⚠️ Service fee of $500 required to proceed.');
+      // Show USDT transaction fee error
+      setError('usdt_fee');
       setIsProcessing(false);
       
       // Shake animation for error
@@ -38,41 +51,57 @@ const WithdrawModal = ({ isOpen, onClose }) => {
     }, 1500);
   };
 
+  const handleMaxAmount = () => {
+    setFormData({
+      ...formData,
+      amount: '10428.65'
+    });
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl w-full max-w-md border border-gray-800 shadow-2xl overflow-hidden animate-slideUp">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 z-50">
+      <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl w-full max-w-md border border-gray-800 shadow-2xl overflow-hidden animate-slideUp relative">
+        {/* Floating Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute -top-3 -right-3 w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform duration-200 z-20 border-2 border-gray-900"
+        >
+          <MdClose className="text-lg" />
+        </button>
+
         {/* Header */}
         <div className="relative p-6 border-b border-gray-800">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                <MdAttachMoney className="text-white text-lg" />
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30">
+                <MdAttachMoney className="text-white text-xl" />
               </div>
-              <div>
-                <h3 className="text-xl font-bold text-white">Withdraw Funds</h3>
-                <p className="text-gray-400 text-sm">Transfer to your bank account</p>
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-900 rounded-full border-2 border-gray-800 flex items-center justify-center">
+                <span className="text-green-400 text-xs font-bold">→</span>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-white hover:bg-gray-800 w-8 h-8 rounded-lg flex items-center justify-center transition"
-            >
-              <FaTimes />
-            </button>
+            <div>
+              <h3 className="text-xl font-bold text-white">Withdraw Funds</h3>
+              <p className="text-gray-400 text-sm">Transfer to your bank account</p>
+            </div>
           </div>
           
           {/* Balance Preview */}
-          <div className="mt-6 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+          <div className="mt-6 p-4 bg-gradient-to-r from-gray-800/80 via-gray-900/80 to-gray-800/80 rounded-xl border border-gray-700 backdrop-blur-sm">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-gray-400 text-sm">Available Balance</p>
-                <p className="text-2xl font-bold text-white">$10,428.65</p>
+                <p className="text-gray-400 text-sm font-medium">Available Balance</p>
+                <p className="text-2xl font-bold text-white bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                  $10,428.65
+                </p>
               </div>
               <div className="text-right">
-                <p className="text-gray-400 text-sm">Minimum Withdrawal</p>
-                <p className="text-lg font-bold text-green-400">$100.00</p>
+                <div className="inline-flex items-center px-3 py-1 bg-green-500/20 rounded-full border border-green-500/30">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
+                  <span className="text-green-400 text-sm font-medium">Verified</span>
+                </div>
               </div>
             </div>
           </div>
@@ -84,124 +113,163 @@ const WithdrawModal = ({ isOpen, onClose }) => {
             {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center">
-                <FaUser className="mr-2 text-green-500" />
+                <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center mr-3">
+                  <FaUser className="text-green-500" />
+                </div>
                 Full Name
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  className="w-full bg-gray-900/50 border border-gray-700 text-white pl-12 pr-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500"
-                  placeholder="Enter your full name"
-                  required
-                />
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FaUser className="text-gray-500" />
-                </div>
-              </div>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full bg-gray-900/50 border border-gray-700 text-white px-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500"
+                placeholder="Enter your full name"
+                required
+              />
             </div>
 
             {/* Bank Name */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center">
-                <FaBuilding className="mr-2 text-green-500" />
+                <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center mr-3">
+                  <FaBuilding className="text-green-500" />
+                </div>
                 Bank Name
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="bankName"
-                  value={formData.bankName}
-                  onChange={handleChange}
-                  className="w-full bg-gray-900/50 border border-gray-700 text-white pl-12 pr-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500"
-                  placeholder="e.g., Chase Bank, Bank of America"
-                  required
-                />
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FaBuilding className="text-gray-500" />
-                </div>
-              </div>
+              <input
+                type="text"
+                name="bankName"
+                value={formData.bankName}
+                onChange={handleChange}
+                className="w-full bg-gray-900/50 border border-gray-700 text-white px-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500"
+                placeholder="e.g., Chase Bank, Bank of America"
+                required
+              />
             </div>
 
             {/* Routing Number */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center">
-                <FaHashtag className="mr-2 text-green-500" />
+                <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center mr-3">
+                  <FaHashtag className="text-green-500" />
+                </div>
                 Routing Number
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="routingNumber"
-                  value={formData.routingNumber}
-                  onChange={handleChange}
-                  className="w-full bg-gray-900/50 border border-gray-700 text-white pl-12 pr-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500"
-                  placeholder="9-digit routing number"
-                  required
-                  maxLength="9"
-                  pattern="\d{9}"
-                  title="Please enter a valid 9-digit routing number"
-                />
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FaHashtag className="text-gray-500" />
-                </div>
-              </div>
-              <p className="text-gray-500 text-xs mt-2 ml-1">Your bank's 9-digit routing number</p>
+              <input
+                type="text"
+                name="routingNumber"
+                value={formData.routingNumber}
+                onChange={handleChange}
+                className="w-full bg-gray-900/50 border border-gray-700 text-white px-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500 font-mono"
+                placeholder="123456789"
+                required
+                maxLength="9"
+                pattern="\d{9}"
+                title="Please enter a valid 9-digit routing number"
+              />
             </div>
 
             {/* Amount to Withdraw */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3">
-                Amount to Withdraw
+                Amount to Withdraw (USD)
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <span className="text-gray-500 text-lg">$</span>
+                  <span className="text-2xl font-bold text-gray-400">$</span>
                 </div>
                 <input
-                  type="number"
-                  min="100"
-                  max="10000"
-                  step="0.01"
-                  defaultValue="1000"
-                  className="w-full bg-gray-900/50 border border-gray-700 text-white pl-12 pr-24 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
+                  type="text"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  className="w-full bg-gray-900/50 border border-gray-700 text-white pl-14 pr-20 py-5 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all text-xl font-bold"
+                  placeholder="0.00"
                   required
                 />
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                  <button
-                    type="button"
-                    className="text-green-500 hover:text-green-400 text-sm font-medium"
-                    onClick={() => {
-                      const input = document.querySelector('input[type="number"]');
-                      input.value = '10428.65';
-                    }}
-                  >
-                    Max
-                  </button>
-                </div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>Min: $100</span>
-                <span>Max: $10,000</span>
+                <button
+                  type="button"
+                  onClick={handleMaxAmount}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-green-500 hover:text-green-400 text-sm font-semibold transition"
+                >
+                  MAX
+                </button>
               </div>
             </div>
 
-            {/* Error Message */}
-            {error && (
-              <div className="error-message p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                <div className="flex items-start">
-                  <FaExclamationTriangle className="text-red-400 mr-3 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-red-400 font-medium mb-1">Service Fee Required</p>
-                    <p className="text-red-400/80 text-sm">A processing fee of $500 is required to complete this withdrawal.</p>
-                    <div className="mt-2 p-2 bg-red-500/5 rounded-lg">
-                      <p className="text-red-300 text-sm font-mono">
-                        Total Withdrawal: $1,000.00 + $500.00 fee = $1,500.00
-                      </p>
+            {/* USDT Fee Error Message */}
+            {error === 'usdt_fee' && (
+              <div className="error-message p-5 bg-gradient-to-br from-yellow-900/20 via-amber-900/10 to-orange-900/10 border border-amber-700/50 rounded-xl">
+                <div className="flex items-start mb-4">
+                  <div className="flex-shrink-0">
+                    <div className="relative">
+                      <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+                        <FaExclamationTriangle className="text-white text-lg" />
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-gray-900 flex items-center justify-center">
+                        <span className="text-white text-xs">!</span>
+                      </div>
                     </div>
                   </div>
+                  <div className="ml-4 flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="text-lg font-bold text-amber-400 mb-1">Transaction Pending</h4>
+                        <p className="text-gray-300 text-sm">
+                          A required service/network fee of 500 USDT must be completed.
+                        </p>
+                      </div>
+                      <button 
+                        onClick={() => setError('')}
+                        className="text-gray-400 hover:text-white ml-2"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fee Details */}
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaClock className="text-amber-400" />
+                      <span className="text-gray-400 text-xs">Status</span>
+                    </div>
+                    <span className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded">
+                      Pending Fee
+                    </span>
+                  </div>
+
+                  <div className="p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <div className="flex items-center gap-2 mb-2">
+                      <SiTether className="text-green-400" />
+                      <span className="text-gray-400 text-xs">Asset</span>
+                    </div>
+                    <span className="text-white font-medium">USDT</span>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-gray-800/60 rounded-lg border border-gray-700 mb-3">
+                  <div className="text-center mb-3">
+                    <span className="text-gray-400 text-sm">Amount Due</span>
+                    <div className="text-2xl font-bold text-red-400 mt-1">500 USDT</div>
+                  </div>
+                  
+                  <div className="text-center">
+                    <span className="text-gray-400 text-xs block mb-1">Reference ID</span>
+                    <code className="text-amber-400 font-mono text-sm bg-black/40 px-3 py-2 rounded-lg inline-block border border-amber-800/30">
+                      USDT-PF-50001
+                    </code>
+                  </div>
+                </div>
+
+                {/* Additional Info */}
+                <div className="pt-3 border-t border-amber-800/30">
+                  <p className="text-gray-400 text-xs text-center italic">
+                    This fee covers blockchain processing and service activation.
+                  </p>
                 </div>
               </div>
             )}
@@ -211,53 +279,49 @@ const WithdrawModal = ({ isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-semibold border border-gray-700 hover:border-gray-600 transition"
+                className="flex-1 px-4 py-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-semibold border border-gray-700 hover:border-gray-600 transition flex items-center justify-center gap-2"
               >
+                <MdClose />
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isProcessing}
-                className={`flex-1 px-4 py-4 rounded-xl font-semibold transition flex items-center justify-center ${
+                className={`flex-1 px-4 py-4 rounded-xl font-semibold transition flex items-center justify-center gap-2 ${
                   isProcessing
                     ? 'bg-gray-700 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg shadow-green-500/20'
+                    : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg shadow-green-500/20 hover:shadow-green-500/30'
                 }`}
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     Processing...
                   </>
                 ) : (
-                  'Proceed Withdrawal'
+                  <>
+                    <MdAttachMoney className="text-lg" />
+                    Proceed
+                  </>
                 )}
               </button>
             </div>
           </div>
         </form>
 
-        {/* Security Info */}
-        <div className="p-6 bg-gray-900/50 border-t border-gray-800">
-          <div className="flex items-start">
-            <div className="text-green-500 mr-3 mt-1">
-              <FaShieldAlt />
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-gray-300 mb-2">Secure Withdrawal Notice</h4>
-              <div className="space-y-2">
-                <p className="text-xs text-gray-500">
-                  • Withdrawals typically process within 3-5 business days
-                </p>
-                <p className="text-xs text-gray-500">
-                  • All transactions are secured with bank-level encryption
-                </p>
-                <p className="text-xs text-gray-500">
-                  • You will receive email confirmation once processed
-                </p>
-                <div className="pt-2 mt-2 border-t border-gray-800">
-                </div>
+        {/* Security Footer */}
+        <div className="p-6 bg-gray-900/60 border-t border-gray-800">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700">
+                <FaShieldAlt className="text-green-500" />
               </div>
+              <div>
+                <h4 className="text-sm font-medium text-gray-300">Secure Transfer</h4>
+                <p className="text-gray-500 text-xs">Bank-level encryption</p>
+              </div>
+            </div>
+            <div className="text-right">
             </div>
           </div>
         </div>
@@ -268,11 +332,11 @@ const WithdrawModal = ({ isOpen, onClose }) => {
         @keyframes slideUp {
           from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(20px) scale(0.95);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
         }
         
