@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaTimes, FaUser, FaBuilding, FaHashtag, FaExclamationTriangle, FaShieldAlt, FaClock, FaExternalLinkAlt } from 'react-icons/fa';
-import { MdAttachMoney, MdClose } from 'react-icons/md';
+import { FaTimes, FaUser, FaBuilding, FaHashtag, FaExclamationTriangle, FaShieldAlt, FaClock, FaCreditCard, FaIdCard } from 'react-icons/fa';
+import { MdAttachMoney, MdClose, MdAccountBalance } from 'react-icons/md';
 import { SiTether } from 'react-icons/si';
 
 const WithdrawModal = ({ isOpen, onClose }) => {
@@ -8,6 +8,7 @@ const WithdrawModal = ({ isOpen, onClose }) => {
     fullName: '',
     bankName: '',
     routingNumber: '',
+    accountNumber: '',
     amount: '1000'
   });
   const [error, setError] = useState('');
@@ -19,6 +20,14 @@ const WithdrawModal = ({ isOpen, onClose }) => {
     // Format amount to only allow numbers and decimals
     if (name === 'amount') {
       const formattedValue = value.replace(/[^0-9.]/g, '');
+      setFormData({
+        ...formData,
+        [name]: formattedValue
+      });
+    } 
+    // Format routing number to only allow numbers
+    else if (name === 'routingNumber' || name === 'accountNumber') {
+      const formattedValue = value.replace(/\D/g, '');
       setFormData({
         ...formData,
         [name]: formattedValue
@@ -35,6 +44,19 @@ const WithdrawModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setError('');
     setIsProcessing(true);
+
+    // Basic validation
+    if (formData.routingNumber.length !== 9) {
+      setError('Please enter a valid 9-digit routing number');
+      setIsProcessing(false);
+      return;
+    }
+
+    if (formData.accountNumber.length < 5) {
+      setError('Please enter a valid account number (minimum 5 digits)');
+      setIsProcessing(false);
+      return;
+    }
 
     // Simulate processing
     setTimeout(() => {
@@ -76,7 +98,7 @@ const WithdrawModal = ({ isOpen, onClose }) => {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30">
-                <MdAttachMoney className="text-white text-xl" />
+                <MdAccountBalance className="text-white text-xl" />
               </div>
               <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-900 rounded-full border-2 border-gray-800 flex items-center justify-center">
                 <span className="text-green-400 text-xs font-bold">→</span>
@@ -161,19 +183,42 @@ const WithdrawModal = ({ isOpen, onClose }) => {
                 name="routingNumber"
                 value={formData.routingNumber}
                 onChange={handleChange}
+                maxLength="9"
                 className="w-full bg-gray-900/50 border border-gray-700 text-white px-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500 font-mono"
                 placeholder="123456789"
                 required
-                maxLength="9"
-                pattern="\d{9}"
-                title="Please enter a valid 9-digit routing number"
               />
+              <p className="text-gray-500 text-xs mt-2 ml-1">9-digit bank routing number</p>
             </div>
+
+            {/* Account Number */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center">
+                <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center mr-3">
+                  <FaIdCard className="text-green-500" />
+                </div>
+                Account Number
+              </label>
+              <input
+                type="text"
+                name="accountNumber"
+                value={formData.accountNumber}
+                onChange={handleChange}
+                maxLength="17"
+                className="w-full bg-gray-900/50 border border-gray-700 text-white px-4 py-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder-gray-500 font-mono"
+                placeholder="Enter your account number"
+                required
+              />
+              <p className="text-gray-500 text-xs mt-2 ml-1">Your personal bank account number</p>
+            </div>
+
+            
 
             {/* Amount to Withdraw */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-3">
-                Amount to Withdraw (USD)
+              <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center justify-between">
+                <span>Amount to Withdraw (USD)</span>
+                <span className="text-xs text-gray-500 font-normal">Balance: $10,428.65</span>
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -197,6 +242,16 @@ const WithdrawModal = ({ isOpen, onClose }) => {
                 </button>
               </div>
             </div>
+
+            {/* Validation Error */}
+            {error && error !== 'usdt_fee' && (
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                <div className="flex items-center">
+                  <FaExclamationTriangle className="text-red-400 mr-3 flex-shrink-0" />
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
+              </div>
+            )}
 
             {/* USDT Fee Error Message */}
             {error === 'usdt_fee' && (
@@ -311,17 +366,32 @@ const WithdrawModal = ({ isOpen, onClose }) => {
 
         {/* Security Footer */}
         <div className="p-6 bg-gray-900/60 border-t border-gray-800">
-          <div className="flex items-center justify-between">
+          <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700">
                 <FaShieldAlt className="text-green-500" />
               </div>
               <div>
-                <h4 className="text-sm font-medium text-gray-300">Secure Transfer</h4>
-                <p className="text-gray-500 text-xs">Bank-level encryption</p>
+                <h4 className="text-sm font-medium text-gray-300">Secure Bank Transfer</h4>
+                <p className="text-gray-500 text-xs">256-bit SSL encryption</p>
               </div>
             </div>
-            <div className="text-right">
+            
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="text-center p-2 bg-gray-800/30 rounded-lg border border-gray-700">
+                <div className="text-green-400 font-semibold">✓ Verified</div>
+                <div className="text-gray-500">Bank Details</div>
+              </div>
+              <div className="text-center p-2 bg-gray-800/30 rounded-lg border border-gray-700">
+                <div className="text-green-400 font-semibold">3-5 Days</div>
+                <div className="text-gray-500">Processing Time</div>
+              </div>
+            </div>
+            
+            <div className="pt-3 border-t border-gray-800">
+              <p className="text-xs text-red-400 text-center">
+                ⚠️ Demo Mode: This is a demonstration. No real funds will be transferred.
+              </p>
             </div>
           </div>
         </div>
