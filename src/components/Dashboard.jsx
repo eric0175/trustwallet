@@ -52,7 +52,7 @@ const Dashboard = () => {
   ];
 
   const cryptoAssets = [
-    { name: 'Bitcoin', symbol: 'BTC', price: '$45,231.50', change: '+2.5%', trend: 'up', icon: <SiBitcoin className="text-orange-500" />, bg: 'bg-orange-500/10' },
+    { name: 'Bitcoin', symbol: 'BTC', price: '$92,231.50', change: '+2.5%', trend: 'up', icon: <SiBitcoin className="text-orange-500" />, bg: 'bg-orange-500/10' },
     { name: 'Ethereum', symbol: 'ETH', price: '$3,210.75', change: '+1.8%', trend: 'up', icon: <SiEthereum className="text-purple-500" />, bg: 'bg-purple-500/10' },
     { name: 'Solana', symbol: 'SOL', price: '$102.30', change: '+5.2%', trend: 'up', icon: <FaCoins className="text-cyan-500" />, bg: 'bg-cyan-500/10' },
     { name: 'Cardano', symbol: 'ADA', price: '$0.52', change: '-0.5%', trend: 'down', icon: <TbCoin className="text-blue-500" />, bg: 'bg-blue-500/10' },
