@@ -65,13 +65,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 pb-24">
+    <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-gray-900 pb-24">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-gray-900/90 backdrop-blur-xl border-b border-gray-800 p-6">
         <div className="flex justify-between items-center mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-8 h-8 bg-linear-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                 <FaWallet className="text-white text-sm" />
               </div>
               <h1 className="text-xl font-bold text-white">Digital Wallet</h1>
@@ -92,8 +92,8 @@ const Dashboard = () => {
         </div>
 
         {/* Total Balance */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 p-6 border border-gray-700 shadow-2xl">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-gray-800 via-gray-900 to-gray-800 p-6 border border-gray-700 shadow-2xl">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-green-500/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
           
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-2">
@@ -105,7 +105,7 @@ const Dashboard = () => {
             </div>
             
             <div className="flex items-baseline gap-3 mb-2">
-              <h2 className="text-4xl font-bold text-white">$10,428.65</h2>
+              <h2 className="text-4xl font-bold text-white">$11,428.65</h2>
               <div className="flex items-center gap-1 px-3 py-1 bg-green-500/20 rounded-full">
                 <FaArrowUp className="text-green-400 text-xs" />
                 <span className="text-green-400 text-sm font-semibold">+$240.50 (2.4%)</span>
@@ -117,14 +117,14 @@ const Dashboard = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-between mt-8 px-2">
+        <div className="flex justify-between mt-8 px-2 z-30">
           {actionButtons.map((btn) => (
             <button
               key={btn.id}
               onClick={() => handleActionClick(btn.id)}
               className="flex flex-col items-center group"
             >
-              <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${btn.color} flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform duration-200`}>
+              <div className={`relative w-14 h-14 rounded-2xl bg-linear-to-br ${btn.color} flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform duration-200`}>
                 <span className="text-white text-xl">{btn.icon}</span>
                 <div className="absolute inset-0 rounded-2xl border border-white/20"></div>
               </div>
@@ -151,7 +151,7 @@ const Dashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
                 activeTab === tab.id 
-                  ? 'bg-gradient-to-r from-green-500/20 to-emerald-600/20 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10' 
+                  ? 'bg-linear-to-r from-green-500/20 to-emerald-600/20 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10' 
                   : 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
               }`}
             >
@@ -215,7 +215,7 @@ const Dashboard = () => {
                 onClick={() => setActiveMoverTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                   activeMoverTab === tab.id 
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
+                    ? 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-300'
                 }`}
               >
@@ -247,18 +247,18 @@ const Dashboard = () => {
           </div>
 
           {/* Add Funds CTA */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 p-8 border border-gray-700">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-green-500/5 to-transparent rounded-full -translate-y-24 translate-x-24"></div>
+          <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-gray-800 via-gray-900 to-gray-800 p-8 border border-gray-700">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-linear-to-br from-green-500/5 to-transparent rounded-full -translate-y-24 translate-x-24"></div>
             
-            <div className="relative z-10 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/20">
+            <div className="relative text-center">
+              <div className="w-16 h-16 bg-linear-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/20">
                 <GiTakeMyMoney className="text-white text-2xl" />
               </div>
               <h4 className="text-xl font-bold text-white mb-2">Fund Your Wallet</h4>
               <p className="text-gray-400 mb-6">Start investing in crypto with as little as $10</p>
               <button
                 onClick={() => handleActionClick('fund')}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
+                className="inline-flex items-center gap-2 bg-linear-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
               >
                 <FaPlus />
                 Add Funds
@@ -268,9 +268,9 @@ const Dashboard = () => {
         </div>
 
         {/* Earn Section */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-900/30 via-gray-800 to-purple-900/30 p-6 border border-purple-500/30 mb-20">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full -translate-x-16 -translate-y-16"></div>
-          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/10 to-transparent rounded-full translate-x-16 translate-y-16"></div>
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-purple-900/30 via-gray-800 to-purple-900/30 p-6 border border-purple-500/30 mb-20">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-linear-to-br from-purple-500/10 to-transparent rounded-full -translate-x-16 -translate-y-16"></div>
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-linear-to-br from-pink-500/10 to-transparent rounded-full translate-x-16 translate-y-16"></div>
           
           <div className="relative z-10">
             <div className="flex justify-between items-start">
@@ -281,7 +281,7 @@ const Dashboard = () => {
                 </div>
                 <p className="text-gray-300 mb-2">Stake your crypto and earn up to</p>
                 <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">12.5% APY</span>
+                  <span className="text-3xl font-bold bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">12.5% APY</span>
                   <span className="text-green-400 text-sm font-medium">+2.5% bonus</span>
                 </div>
                 <button
@@ -309,7 +309,7 @@ const Dashboard = () => {
             >
               <div className={`relative p-3 rounded-2xl mb-1 transition-all duration-300 ${
                 tab.active 
-                  ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
+                  ? 'bg-linear-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
                   : 'text-gray-500 group-hover:text-gray-300'
               }`}>
                 <span className="text-xl">{tab.icon}</span>

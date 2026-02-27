@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const validCredentials = {
-    email: "Zulumax834@gmail.com",
+    email: "zulumax834@gmail.com",
     password: "keeper304",
   };
 
@@ -40,11 +40,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-6 flex flex-col justify-center">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 to-black p-6 flex flex-col justify-center">
       <div className="max-w-md w-full mx-auto">
         {/* App Logo/Branding */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl mb-6 shadow-lg shadow-green-500/20">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-green-500 to-emerald-600 rounded-2xl mb-6 shadow-lg shadow-green-500/20">
             <FaWallet className="text-white text-3xl" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">
@@ -129,7 +129,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg shadow-green-500/20 hover:shadow-green-500/30 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+              className="w-full bg-linear-to-r from-green-500 to-emerald-600 text-white py-4 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg shadow-green-500/20 hover:shadow-green-500/30 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Sign In
             </button>
