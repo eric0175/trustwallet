@@ -105,7 +105,7 @@ const Dashboard = () => {
             </div>
             
             <div className="flex items-baseline gap-3 mb-2">
-              <h2 className="text-4xl font-bold text-white">$11,428.65</h2>
+              <h2 className="text-4xl font-bold text-white">$11,928.65</h2>
               <div className="flex items-center gap-1 px-3 py-1 bg-green-500/20 rounded-full">
                 <FaArrowUp className="text-green-400 text-xs" />
                 <span className="text-green-400 text-sm font-semibold">+$240.50 (2.4%)</span>
