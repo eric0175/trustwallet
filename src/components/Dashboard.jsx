@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { FaHome, FaChartLine, FaExchangeAlt, FaGift, FaCompass, 
-         FaArrowUp, FaArrowDown, FaPlus, FaWallet, FaShieldAlt, 
-         FaCrown, FaFire, FaRobot, FaCoins } from 'react-icons/fa';
+import {
+  FaHome, FaChartLine, FaExchangeAlt, FaGift, FaCompass,
+  FaArrowUp, FaArrowDown, FaPlus, FaWallet, FaShieldAlt,
+  FaCrown, FaFire, FaRobot, FaCoins
+} from 'react-icons/fa';
 import { MdSend, MdSwapVert, MdSell, MdTrendingUp, MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { SiBitcoin, SiEthereum } from 'react-icons/si';
@@ -94,7 +96,7 @@ const Dashboard = () => {
         {/* Total Balance */}
         <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-gray-800 via-gray-900 to-gray-800 p-6 border border-gray-700 shadow-2xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-green-500/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
-          
+
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-2">
               <p className="text-gray-400 text-sm font-medium">Total Balance</p>
@@ -103,15 +105,15 @@ const Dashboard = () => {
                 <span className="text-xs text-green-400 font-medium">Live</span>
               </div>
             </div>
-            
+
             <div className="flex items-baseline gap-3 mb-2">
-              <h2 className="text-4xl font-bold text-white">$13,428.65</h2>
+              <h2 className="text-4xl font-bold text-white">$16,428.65</h2>
               <div className="flex items-center gap-1 px-3 py-1 bg-green-500/20 rounded-full">
                 <FaArrowUp className="text-green-400 text-xs" />
                 <span className="text-green-400 text-sm font-semibold">+$240.50 (2.4%)</span>
               </div>
             </div>
-            
+
             <p className="text-gray-500 text-sm">≈ 0.231 BTC • Updated just now</p>
           </div>
         </div>
@@ -149,11 +151,10 @@ const Dashboard = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
-                activeTab === tab.id 
-                  ? 'bg-linear-to-r from-green-500/20 to-emerald-600/20 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10' 
+              className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${activeTab === tab.id
+                  ? 'bg-linear-to-r from-green-500/20 to-emerald-600/20 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10'
                   : 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -168,7 +169,7 @@ const Dashboard = () => {
               View All
             </button>
           </div>
-          
+
           <div className="space-y-3">
             {cryptoAssets.map((asset) => (
               <div key={asset.symbol} className="group bg-gray-800/50 hover:bg-gray-800 p-4 rounded-2xl border border-gray-700 hover:border-green-500/30 transition-all duration-300 cursor-pointer">
@@ -185,8 +186,8 @@ const Dashboard = () => {
                   <div className="text-right">
                     <p className="font-semibold text-white">{asset.price}</p>
                     <div className={`inline-flex items-center px-3 py-1 rounded-full ${asset.trend === 'up' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                      {asset.trend === 'up' ? 
-                        <FaArrowUp className="mr-1 text-xs" /> : 
+                      {asset.trend === 'up' ?
+                        <FaArrowUp className="mr-1 text-xs" /> :
                         <FaArrowDown className="mr-1 text-xs" />
                       }
                       <span className="text-sm font-medium">{asset.change}</span>
@@ -206,18 +207,17 @@ const Dashboard = () => {
               See All
             </button>
           </div>
-          
+
           {/* Mover Tabs */}
           <div className="flex space-x-2 mb-6 overflow-x-auto pb-2">
             {moverTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveMoverTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
-                  activeMoverTab === tab.id 
-                    ? 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${activeMoverTab === tab.id
+                    ? 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-300'
-                }`}
+                  }`}
               >
                 <span className="text-base">{tab.icon}</span>
                 {tab.label}
@@ -249,7 +249,7 @@ const Dashboard = () => {
           {/* Add Funds CTA */}
           <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-gray-800 via-gray-900 to-gray-800 p-8 border border-gray-700">
             <div className="absolute top-0 right-0 w-48 h-48 bg-linear-to-br from-green-500/5 to-transparent rounded-full -translate-y-24 translate-x-24"></div>
-            
+
             <div className="relative text-center">
               <div className="w-16 h-16 bg-linear-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/20">
                 <GiTakeMyMoney className="text-white text-2xl" />
@@ -271,7 +271,7 @@ const Dashboard = () => {
         <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-purple-900/30 via-gray-800 to-purple-900/30 p-6 border border-purple-500/30 mb-20">
           <div className="absolute top-0 left-0 w-32 h-32 bg-linear-to-br from-purple-500/10 to-transparent rounded-full -translate-x-16 -translate-y-16"></div>
           <div className="absolute bottom-0 right-0 w-32 h-32 bg-linear-to-br from-pink-500/10 to-transparent rounded-full translate-x-16 translate-y-16"></div>
-          
+
           <div className="relative z-10">
             <div className="flex justify-between items-start">
               <div>
@@ -307,19 +307,17 @@ const Dashboard = () => {
               key={tab.id}
               className="flex flex-col items-center group"
             >
-              <div className={`relative p-3 rounded-2xl mb-1 transition-all duration-300 ${
-                tab.active 
-                  ? 'bg-linear-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20' 
+              <div className={`relative p-3 rounded-2xl mb-1 transition-all duration-300 ${tab.active
+                  ? 'bg-linear-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20'
                   : 'text-gray-500 group-hover:text-gray-300'
-              }`}>
+                }`}>
                 <span className="text-xl">{tab.icon}</span>
                 {tab.active && (
                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 )}
               </div>
-              <span className={`text-xs font-medium transition ${
-                tab.active ? 'text-green-400' : 'text-gray-500 group-hover:text-gray-400'
-              }`}>
+              <span className={`text-xs font-medium transition ${tab.active ? 'text-green-400' : 'text-gray-500 group-hover:text-gray-400'
+                }`}>
                 {tab.label}
               </span>
             </button>
