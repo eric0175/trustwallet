@@ -13,7 +13,7 @@ const Verification = () => {
   const inputRefs = useRef([]);
 
   // Predefined verification code
-  const verificationCode = '06457';
+  const verificationCode = '064507';
 
   // Timer for resend code
   useEffect(() => {
